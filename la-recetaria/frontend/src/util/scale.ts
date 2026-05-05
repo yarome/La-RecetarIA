@@ -1,4 +1,4 @@
-import type { Recipe, Ingredient, Nutrition } from '../api/types';
+import type { Recipe, Ingredient } from '../api/types';
 
 export function scaleFactor(recipe: Pick<Recipe, 'baseServings'>, people: number): number {
   if (recipe.baseServings <= 0) return 1;
@@ -7,16 +7,6 @@ export function scaleFactor(recipe: Pick<Recipe, 'baseServings'>, people: number
 
 export function scaleIngredient(ing: Ingredient, factor: number): Ingredient {
   return { ...ing, quantity: ing.quantity * factor };
-}
-
-export function scaleNutrition(n: Nutrition, factor: number): Nutrition {
-  return {
-    protein: n.protein * factor,
-    carbs: n.carbs * factor,
-    sugars: n.sugars * factor,
-    fat: n.fat * factor,
-    fiber: n.fiber * factor,
-  };
 }
 
 export function formatQuantity(quantity: number, unit: string): string {

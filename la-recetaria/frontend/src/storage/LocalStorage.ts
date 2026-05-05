@@ -12,6 +12,7 @@ import type {
 } from '../api/types';
 import { MEALS } from '../api/types';
 import type { StorageBackend } from './Storage';
+import { GUEST_NEXT_ID, GUEST_STARTER_RECIPES } from './guestStarterRecipes';
 
 const STORAGE_KEY = 'la-recetaria:guest';
 
@@ -36,10 +37,10 @@ interface GuestData {
 
 function freshData(): GuestData {
   return {
-    nextId: 2,
-    recipes: [],
+    nextId: GUEST_NEXT_ID,
+    recipes: GUEST_STARTER_RECIPES.map((r) => ({ ...r })),
     groups: [
-      { id: 1, name: 'Favorites', isProtected: true, recipeIds: [] },
+      { id: 1, name: 'Favorites', isProtected: true, recipeIds: [2] },
     ],
     menu: [],
     currentPlan: {},

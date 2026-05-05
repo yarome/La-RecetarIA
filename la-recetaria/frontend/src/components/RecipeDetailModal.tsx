@@ -5,7 +5,7 @@ import { Modal } from './ui/Modal';
 import { Button } from './ui/Button';
 import { TagPill } from './TagPill';
 import { ServingsStepper } from './ServingsStepper';
-import { formatQuantity, scaleFactor, scaleIngredient, scaleNutrition } from '../util/scale';
+import { formatQuantity, scaleFactor, scaleIngredient } from '../util/scale';
 import { useI18n } from '../i18n/I18nProvider';
 
 interface Props {
@@ -37,8 +37,6 @@ export function RecipeDetailModal({
   if (!recipe) return null;
 
   const factor = scaleFactor(recipe, people);
-  const scaledKcal = recipe.kcal * factor;
-  const scaledNutrition = scaleNutrition(recipe.nutrition, factor);
 
   return (
     <Modal
@@ -134,18 +132,16 @@ export function RecipeDetailModal({
           </div>
 
           <div>
-            <h3 className="text-lg font-bold">
-              {t('recipeDetail.nutritionFor', { people })}
-            </h3>
+            <h3 className="text-lg font-bold">{t('recipeDetail.nutrition')}</h3>
             <dl className="mt-3 grid grid-cols-3 sm:grid-cols-6 gap-3 text-center">
               {(
                 [
-                  ['kcal', Math.round(scaledKcal)],
-                  ['protein', Math.round(scaledNutrition.protein)],
-                  ['carbs', Math.round(scaledNutrition.carbs)],
-                  ['sugars', Math.round(scaledNutrition.sugars)],
-                  ['fat', Math.round(scaledNutrition.fat)],
-                  ['fiber', Math.round(scaledNutrition.fiber)],
+                  ['kcal', Math.round(recipe.kcal)],
+                  ['protein', Math.round(recipe.nutrition.protein)],
+                  ['carbs', Math.round(recipe.nutrition.carbs)],
+                  ['sugars', Math.round(recipe.nutrition.sugars)],
+                  ['fat', Math.round(recipe.nutrition.fat)],
+                  ['fiber', Math.round(recipe.nutrition.fiber)],
                 ] as const
               ).map(([key, value]) => (
                 <div key={key} className="rounded-xl border border-ink-black/10 py-2">

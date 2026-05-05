@@ -18,7 +18,6 @@ import type {
   Nutrition,
 } from '../api/types';
 import { MEALS, WEEKDAYS } from '../api/types';
-import { scaleFactor, scaleNutrition } from '../util/scale';
 import { useI18n } from '../i18n/I18nProvider';
 
 interface Props {
@@ -116,8 +115,10 @@ function PoolItem({ recipe }: { recipe: Recipe }) {
         isDragging ? 'opacity-30' : ''
       }`}
     >
-      <GripVertical size={14} className="text-ink-black/40" />
-      <span className="text-sm flex-1 truncate">{recipe.name}</span>
+      <GripVertical size={14} className="text-ink-black/40 shrink-0" />
+      <span className="text-sm flex-1 truncate min-w-0" title={recipe.name}>
+        {recipe.name}
+      </span>
     </div>
   );
 }
@@ -141,28 +142,30 @@ function SlotChip({
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: slotDragId(day, meal, index),
   });
+  const label = recipe?.name ?? t('weekly.recipeFallback', { id: slot.recipeId });
   return (
     <div
-      ref={setNodeRef}
-      className={`group flex items-center gap-1 rounded-lg bg-ink-black/5 px-2 py-1 text-xs ${
+      className={`group flex items-start gap-0.5 max-w-[8rem] min-w-0 rounded-lg bg-ink-black/5 px-1.5 py-1 text-xs ${
         isDragging ? 'opacity-30' : ''
       }`}
     >
-      <span
+      <div
+        ref={setNodeRef}
         {...attributes}
         {...listeners}
-        className="flex-1 truncate cursor-grab active:cursor-grabbing"
+        className="min-w-0 flex-1 cursor-grab active:cursor-grabbing"
       >
-        {recipe?.name ?? t('weekly.recipeFallback', { id: slot.recipeId })}
-        <span className="text-ink-black/50">
-          {' '}
-          · {t('weekly.peopleSuffix', { n: slot.people })}
-        </span>
-      </span>
+        <div className="truncate text-[11px] leading-tight" title={label}>
+          {label}
+        </div>
+        <div className="text-[10px] text-ink-black/50 leading-tight">
+          {t('weekly.peopleSuffix', { n: slot.people })}
+        </div>
+      </div>
       <button
         type="button"
         onClick={onRemove}
-        className="opacity-50 hover:opacity-100 hover:text-red-600"
+        className="shrink-0 opacity-50 hover:opacity-100 hover:text-red-600 mt-0.5"
         aria-label={t('weekly.removeSlot')}
       >
         <X size={12} />
@@ -189,7 +192,7 @@ function DayCell({
   return (
     <div
       ref={setNodeRef}
-      className={`min-h-[3.5rem] rounded-lg border border-dashed p-1.5 flex flex-col gap-1 transition-colors ${
+      className={`w-[8.5rem] max-w-[8.5rem] min-w-0 min-h-[3.5rem] rounded-lg border border-dashed p-1.5 flex flex-col gap-1 transition-colors ${
         isOver ? 'border-ink-black bg-ink-black/5' : 'border-ink-black/15'
       }`}
     >
@@ -226,14 +229,12 @@ function dayNutritionTotals(
     for (const slot of slots) {
       const r = recipesById.get(slot.recipeId);
       if (!r) continue;
-      const f = scaleFactor(r, slot.people);
-      kcal += r.kcal * f;
-      const n = scaleNutrition(r.nutrition, f);
-      nutrition.protein += n.protein;
-      nutrition.carbs += n.carbs;
-      nutrition.sugars += n.sugars;
-      nutrition.fat += n.fat;
-      nutrition.fiber += n.fiber;
+      kcal += r.kcal;
+      nutrition.protein += r.nutrition.protein;
+      nutrition.carbs += r.nutrition.carbs;
+      nutrition.sugars += r.nutrition.sugars;
+      nutrition.fat += r.nutrition.fat;
+      nutrition.fiber += r.nutrition.fiber;
     }
   }
   return { kcal, nutrition };
@@ -327,17 +328,17 @@ export function WeeklyPlanner({
         </aside>
 
         <div className="overflow-x-auto scrollbar-thin">
-          <div className="min-w-[720px]">
-            <table className="w-full border-separate border-spacing-1.5">
+          <div className="min-w-[68rem]">
+            <table className="w-full border-separate border-spacing-1.5 table-fixed">
               <thead>
                 <tr>
-                  <th className="text-left text-xs font-medium text-ink-black/60 px-2">
+                  <th className="text-left text-xs font-medium text-ink-black/60 px-2 w-32 min-w-[8rem] shrink-0">
                     {t('weekly.mealHeader')}
                   </th>
                   {WEEKDAYS.map((d) => (
                     <th
                       key={d}
-                      className="text-left text-xs font-semibold text-ink-black px-2"
+                      className="text-left text-xs font-semibold text-ink-black px-1 w-[8.5rem]"
                     >
                       {t(`weekday.abbr.${d}`)}
                     </th>
@@ -347,7 +348,7 @@ export function WeeklyPlanner({
               <tbody>
                 {visibleMeals.map((meal) => (
                   <tr key={meal}>
-                    <td className="text-sm font-medium text-ink-black/80 align-top px-2 py-1.5 whitespace-nowrap">
+                    <td className="text-sm font-medium text-ink-black/80 align-top px-2 py-1.5 whitespace-nowrap w-32 min-w-[8rem] shrink-0">
                       {t(`meal.${meal}`)}
                     </td>
                     {WEEKDAYS.map((d) => (
