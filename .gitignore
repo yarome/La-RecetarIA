@@ -35,3 +35,7 @@ Thumbs.db
 # Tooling / test
 .cache/
 coverage/
+
+# Workspace-only docs (no publicar en GitHub; el código de la app está en la-recetaria/)
+/AGENTS.md
+/DESIGN.md
