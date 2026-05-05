@@ -40,8 +40,8 @@ Aplicación personal para gestionar un libro de recetas, planificar la semana y 
 - La preferencia de idioma se guarda por navegador y actualiza también el atributo `lang` del documento.
 
 ### Diseño
-- Sistema de tokens **ATMOS** y tema *Ethereal Sky Gradient*.
-- Tarjetas de receta responsivas (alturas e imagen escalan por *breakpoint*), modales adaptativos y barra superior con desplazamiento horizontal en móvil.
+- Sistema de tokens **ATMOS** y tema *Ethereal Sky Gradient* como diseño inicial, extraídos de https://styles.refero.design/. Se cambiará el diseño a futuro para incluir un sistema de diseñor propio.
+  
 
 ## Stack técnico
 
