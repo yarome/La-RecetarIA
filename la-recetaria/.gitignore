@@ -1,0 +1,39 @@
+# dependencies
+node_modules/
+.npm/
+
+# build output
+dist/
+build/
+*.tsbuildinfo
+
+# logs
+*.log
+npm-debug.log*
+
+# env files
+.env
+.env.local
+.env.*.local
+
+# database (per-user; never commit)
+backend/data/*.db
+backend/data/*.db-journal
+backend/data/*.db-wal
+backend/data/*.db-shm
+
+# seeded credentials (per-user; never commit)
+backend/users.local.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# editors
+.vscode/settings.json
+.idea/
+*.swp
+
+# misc
+.cache/
+coverage/

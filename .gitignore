@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+.npm/
+
+# Build
+dist/
+build/
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Env (keep *.example if any)
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+
+# Backend SQLite & local users (never commit)
+la-recetaria/backend/data/*.db
+la-recetaria/backend/data/*.db-journal
+la-recetaria/backend/data/*.db-wal
+la-recetaria/backend/data/*.db-shm
+la-recetaria/backend/users.local.json
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/settings.json
+.idea/
+*.swp
+
+# Tooling / test
+.cache/
+coverage/
